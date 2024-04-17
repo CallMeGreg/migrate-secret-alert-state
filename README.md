@@ -2,9 +2,9 @@
 This script ([main.py](./main.py)) migrates the state of GitHub Advanced Security secret scanning alerts from GitHub Enterprise Server (GHES) repositories to GitHub Enterprise Cloud (GHEC) repositories.
 
 # How it works
-The script works by looking at a CSV file to determine which GHES source orgs/repos map to which GHEC destination orgs/repos. For each repo pair, the script confirms that secret scanning is enabled in both repos, and looks at both the _pattern name_ and _secret value_ to match a source alert ID to a destination alert ID. If the source alert state is `resolved`, and the destination alert state is `open`, the script will close the destination alert using the same reason.
+The script works by looking at a CSV file to determine which GHES source orgs/repos map to which GHEC destination orgs/repos. For each repo pair, the script confirms that secret scanning is enabled in both repos, and looks at both the _pattern name_ and _secret value_ to match a source alert ID to a destination alert ID.
 
-The comment attached to the destination alert will include the source alert actor, reason, timestamp, and comment.
+If the source alert state is `resolved`, and the destination alert state is `open`, the script will close the destination alert using the same reason. The comment attached to the destination alert will include the source alert actor, reason, timestamp, and comment.
 
 # Pre-requisites
 - Python 3
@@ -35,7 +35,7 @@ export DESTINATION_PAT=<ghec_pat>
 ```
 
 ## Dry run mode
-By default, the script will run in dry-run mode. This will print the source and destination repository alert ID mappings without making any changes to the alerts, and list the number of mapped alerts in addition to the number of alerts that _would have been updated_. To run the script in dry-run mode, use the following command:
+By default, the script will run in dry-run mode. This will log the source and destination repository alert ID mappings without making any changes to the alerts, and list the number of mapped alerts in addition to the number of alerts that _would have been updated_. To run the script in dry-run mode, use the following command:
 ```
 python3 main.py --csv path/to/your/example.csv
 ```
