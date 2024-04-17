@@ -1,5 +1,10 @@
 # Overview
-This script ([main.py](./main.py)) migrates the state of GitHub Advanced Security secret scanning alerts from GitHub Enterprise Server (GHES) repositories to GitHub Enterprise Cloud (GHEC) repositories. The actor, reason, comment, and timestamp from the source repository alert will be captured in the destination repository alert.
+This script ([main.py](./main.py)) migrates the state of GitHub Advanced Security secret scanning alerts from GitHub Enterprise Server (GHES) repositories to GitHub Enterprise Cloud (GHEC) repositories.
+
+# How it works
+The script works by looking at a CSV file to determine which GHES source orgs/repos map to which GHEC destination orgs/repos. For each repo pair, the script confirms that secret scanning is enabled in both repos, and looks at both the _pattern name_ and _secret value_ to match a source alert ID to a destination alert ID. If the source alert state is `resolved`, and the destination alert state is `open`, the script will close the destination alert using the same reason.
+
+The comment attached to the destination alert will include the source alert actor, reason, timestamp, and comment.
 
 # Pre-requisites
 - Python 3
@@ -11,6 +16,7 @@ This script ([main.py](./main.py)) migrates the state of GitHub Advanced Securit
 # Assumptions
 - The source and destination PATs have access to ALL GHES and GHEC secret scanning alerts respectively (Note: Enterprise Owners do NOT have access to all alerts by default).
 - GitHub Advanced Security, and secret scanning, are enabled on both the source and destination repositories.
+- The secret scanning backfill scan has completed in the destination repository.
 - All custom patterns at the repository, organization, and enterprise level have identical names and patterns in both the source and destination enterprises.
 - If the alert state in the destination repository is already `resolved`, the script will NOT update the alert.
 - The actor closing the destination alerts will be the user associated with the destination PAT (although the comment will contain the actor who closed the source alert).
