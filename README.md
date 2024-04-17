@@ -4,21 +4,20 @@ This script ([main.py](./main.py)) migrates the state of GitHub Advanced Securit
 # Pre-requisites
 - Python 3
 - Python `requests` library (install using `pip install requests`)
-- A CSV file with four columns: `Source Org`, `Source Repo`, `Destination Org`, and `Destination Repo` (see [example.csv](./example.csv)).
-  - The script will read the CSV file row by row and migrate the secret scanning alert states from the source org/repo to the destination org/repo.
-- A Personal Access Token (PAT) from each enterprise with the following scopes:
+- A CSV file that maps source repos to destination repos with four columns: `Source Org`, `Source Repo`, `Destination Org`, and `Destination Repo` (see [example.csv](./example.csv)).
+- A GitHub Personal Access Token (PAT) from each enterprise with the following scope:
   - `repo` (Full control of private repositories)
 
 # Assumptions
-- The Source and Destination PATs have access to ALL GHES and GHEC secret scanning alerts respectively (Note: Enterprise Owners do NOT have access to all alerts by default).
+- The source and destination PATs have access to ALL GHES and GHEC secret scanning alerts respectively (Note: Enterprise Owners do NOT have access to all alerts by default).
 - GitHub Advanced Security, and secret scanning, are enabled on both the source and destination repositories.
-- All custom patterns at the repository, organization, and enterprise level have identical names and patterns in both the source and destination repositories.
+- All custom patterns at the repository, organization, and enterprise level have identical names and patterns in both the source and destination enterprises.
 - If the alert state in the destination repository is already `resolved`, the script will NOT update the alert.
-- The actor closing the destination alerts will be the user associated with the Destination PAT.
+- The actor closing the destination alerts will be the user associated with the destination PAT (although the comment will contain the actor who closed the source alert).
 
 # Usage
 ## Setup
-Set the following environment variables based on your GHES URL
+Set the following environment variables, replacing the values with your GHES API URL, Source PAT, and Desination PAT.
 ```
 export SOURCE_API_URL=<https://your.ghes.server.com/api/v3>
 ```
