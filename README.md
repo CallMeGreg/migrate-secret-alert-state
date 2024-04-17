@@ -45,3 +45,12 @@ When you're ready to migrate the alert states from the source to the destination
 ```
 python3 main.py --csv path/to/your/example.csv --dry-run false
 ```
+
+# Example
+The following screenshots show the audit trail of an example source and destination alert after running the state migration script:
+
+## Source Alert
+![Screenshot 2024-04-17 at 5 06 27 PM](https://github.com/CallMeGreg/migrate-secret-alert-state/assets/110078080/95a63043-1de1-4ca6-81dc-8a5dc2354b15)
+
+## Destination Alert
+![Screenshot 2024-04-17 at 5 17 53 PM](https://github.com/CallMeGreg/migrate-secret-alert-state/assets/110078080/982ba65f-2a97-434d-95bd-2a6bf92ded7a)
